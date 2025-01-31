@@ -336,4 +336,4 @@ dependencies:
       - watchdog==3.0.0
       - wcwidth==0.2.13
       - xyzservices==2023.10.1
-prefix: /Users/christopherchan/mambaforge/envs/ds_asrs_trade
+prefix: /opt/homebrew/Caskroom/miniforge/base/envs/ds_asrs_trade

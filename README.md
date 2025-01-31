@@ -1,99 +1,67 @@
-# asrs-trade-kedro
+# Modelling the probabilities and expected famine outcomes of nuclear exchanges
 
 ## Overview
 
-This is your new Kedro project for the [spaceflights tutorial](https://docs.kedro.org/en/stable/tutorial/spaceflights_tutorial.html) and the extra tutorial sections on [visualisation with Kedro-Viz](https://docs.kedro.org/projects/kedro-viz/en/stable/kedro-viz_visualisation.html) and [experiment tracking with Kedro-Viz](https://docs.kedro.org/projects/kedro-viz/en/stable/experiment_tracking.html), which was generated using `kedro 0.19.2`.
+This project and associated [notebook](./notebooks/P_LargeNuclearWar.ipynb) provides an analysis of the probability and potential impact of a large nuclear war by 2050. The analysis is based on various statistical models and data sources, including nuclear weapon stockpiles, historical detonation data, and population projections.
 
-Take a look at the [Kedro documentation](https://docs.kedro.org) to get started.
+**Analysis are completed for the review paper [Resilience Reconsidered: The need for modelling resilience in food distribution and trade relations in post-nuclear war recovery](https://www.researchgate.net/publication/378825936_Resilience_Reconsidered_The_need_for_modelling_resilience_in_food_distribution_and_trade_relations_in_post-nuclear_war_recovery)
 
-## Rules and guidelines
+###Key Components
 
-In order to get the best out of the template:
+1. Probability Density Function (PDF) Analysis:
+Utilizes a beta distribution to model the probability of nuclear detonations before 2050.
+Considers different scenarios, including no detonations, one detonation, and two detonations in the future.
 
-* Don't remove any lines from the `.gitignore` file we provide
-* Make sure your results can be reproduced by following a [data engineering convention](https://docs.kedro.org/en/stable/faq/faq.html#what-is-data-engineering-convention)
-* Don't commit data to your repository
-* Don't commit any credentials or your local configuration to your repository. Keep all your credentials and local configuration in `conf/local/`
+2. Data Sources:
+Nuclear weapon stockpile data from Metaculus and other sources.
+Population projections from the United Nations World Population Prospects (UN WPP) 2024.
+
+3. Statistical Modeling:
+Uses linear interpolation and beta distribution to estimate the number of nuclear weapons and the probability of detonations.
+Employs cubic spline interpolation and least squares optimization for parameter estimation.
+
+4. Impact Assessment:
+Calculates expected deaths from nuclear detonations using data from Xia et al. (2022).
+Considers different detonation sizes and their impact on global population using growth projections from UN WPP 2024.
+
+5. Visualization:
+Provides various plots to visualize the probability distributions and expected impacts of nuclear detonations.
+Includes line plots, scatter plots, and bar plots to illustrate the findings.
+
+6. Output:
+Generates CSV files with expected deaths under different scenarios and population projections.
 
 ## How to install dependencies
 
-Declare any dependencies in `requirements.txt` for `pip` installation.
+Declare any dependencies in environment.yml and uv.lock for cond or uv installation.
 
-To install them, run:
-
-```
-pip install -r requirements.txt
-```
-
-## How to run your Kedro pipeline
-
-You can run your Kedro project with:
+To install dependencies, run:
 
 ```
-kedro run
+conda env create -f environment.yml
 ```
 
-## How to test your Kedro project
-
-Have a look at the files `src/tests/test_run.py` and `src/tests/pipelines/test_data_science.py` for instructions on how to write your tests. Run the tests as follows:
+or
 
 ```
-pytest
+uv sync --frozen
 ```
 
-To configure the coverage threshold, look at the `.coveragerc` file.
+## Results
 
-## Project dependencies
+### Beta Distribution for hypothetical nuclear detonations
 
-To see and update the dependency requirements for your project use `requirements.txt`. Install the project requirements with `pip install -r requirements.txt`.
+![Beta_formula_readme](./docs/Beta_formula_readme.png)
+![Conj_BetaV01](./docs/Conj_BetaV01.png)
+Supplementary S1: Fig 1. Evolution of the Probability Density Function (PDF) of a nuclear war over time. If no detonation occurs, the PDF continues to steepen the negative skew shape (A). In contrast, should a detonation occur at any given year, the PDF shifts significantly positive skew, resulting  in a significant shift in the averages. Tables 3, 4 elucidate the hypothetical scenarios of two future exchanges in 2029 and 2039, where the median beta probability of the subsequent years would inherit the post-exchange probabilities. While at exchange year, probability should equal 1, pure event Beta probability was preserved for observance (B). Analysis of the probabilities of an escalation enables us to estimate the potential exposure, for which we aim to build adaptive capacity.
 
-[Further information about project dependencies](https://docs.kedro.org/en/stable/kedro_project_setup/dependencies.html#project-specific-dependencies)
+![Predicted_Death_readme](./docs/Predicted_Death_readme.png)
+![Conj_BetaNY](./docs/Conj_BetaNY.png)
+Supplementary S2: Fig 2. The Probability Density Function for a detonation happening each year from 2024 to 2050.
 
-## How to work with Kedro and notebooks
+### Expected deaths from nuclear detonations
+![Expected_deaths](./docs/Expected_deaths.png)
+Supplementary S2: Fig 3. Expected deaths for 250 and 550 detonations are the highest because of the combination of likelihood and severity, while exchange size of 4400 (150 Tg) is highly unlikely. The expected deaths calculation suggest it is most important to focus on mitigating between 250 to 550 detonations from a near-term perspective, though a long term perspective would likely make larger exchanges relatively more important.
 
-> Note: Using `kedro jupyter` or `kedro ipython` to run your notebook provides these variables in scope: `catalog`, `context`, `pipelines` and `session`.
->
-> Jupyter, JupyterLab, and IPython are already included in the project requirements by default, so once you have run `pip install -r requirements.txt` you will not need to take any extra steps before you use them.
-
-### Jupyter
-To use Jupyter notebooks in your Kedro project, you need to install Jupyter:
-
-```
-pip install jupyter
-```
-
-After installing Jupyter, you can start a local notebook server:
-
-```
-kedro jupyter notebook
-```
-
-### JupyterLab
-To use JupyterLab, you need to install it:
-
-```
-pip install jupyterlab
-```
-
-You can also start JupyterLab:
-
-```
-kedro jupyter lab
-```
-
-### IPython
-And if you want to run an IPython session:
-
-```
-kedro ipython
-```
-
-### How to ignore notebook output cells in `git`
-To automatically strip out all output cell contents before committing to `git`, you can use tools like [`nbstripout`](https://github.com/kynan/nbstripout). For example, you can add a hook in `.git/config` with `nbstripout --install`. This will run `nbstripout` before anything is committed to `git`.
-
-> *Note:* Your output cells will be retained locally.
-
-[Further information about using notebooks for experiments within Kedro projects](https://docs.kedro.org/en/develop/notebooks_and_ipython/kedro_and_notebooks.html).
-## Package your Kedro project
-
-[Further information about building project documentation and packaging your project](https://docs.kedro.org/en/stable/tutorial/package_a_project.html).
+![one_EY_hist.png](./docs/one_EY_hist.png)
+Fig. 2 Expected deaths calculated for various detonation sizes if nuclear war happens in the year 2025, 2037, and 2050 non cumulatively, predicted expected deaths combine direct fatalities and fatalities from starvation at the end of year 2 (Xia et al., 2022: Table 1). An exchange of 4400 (150 Tg) is highly unlikely (Supplementary S2), and therefore the expected deaths are comparatively low. This expected deaths calculation suggests it is most important to focus on mitigation measures for 250 to 550 detonations in the near-term. The gradual decrease in expected deaths across all scenarios through the years can be attributed to reduction in annual probabilities of nuclear war . Population increases were taken into account using UN World Population Prospects estimate variants (UN DESA., 2024) (see Supplementary S2: Fig. 2, 3; Table 5, 6.).
