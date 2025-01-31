@@ -38,7 +38,7 @@ Declare any dependencies in environment.yml and uv.lock for cond or uv installat
 To install dependencies, run:
 
 ```
-conda env create -f environment.yml
+conda env create -f environment.yaml
 ```
 
 or
